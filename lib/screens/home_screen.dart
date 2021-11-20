@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/widgets/my_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: const Color(0xffcbcbcb),
-      drawer: const Drawer(),
+      drawer: const MyDrawer(),
       appBar: AppBar(
         title: 'Home'.text.make(),
         actions: const [
@@ -56,12 +57,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
+                  children: [
+                    SingleProduct(
+                      prodctTitle: 'Fresh Mint',
+                      productImageUrl:
+                          'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png',
+                      onTap: () {},
+                    ),
+                    SingleProduct(
+                      prodctTitle: 'Spinach',
+                      productImageUrl:
+                          'https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE-970-80.jpg.webp',
+                      onTap: () {},
+                    ),
+                    SingleProduct(
+                      prodctTitle: 'Potato',
+                      productImageUrl:
+                          'https://freshpointlocal.co.uk/wp-content/uploads/2018/12/Potatoes-2.jpg',
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ),
@@ -77,12 +91,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: const [
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
-                    SingleProduct(),
+                  children: [
+                    SingleProduct(
+                      prodctTitle: 'Apple',
+                      productImageUrl:
+                          'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg',
+                      onTap: () {},
+                    ),
+                    SingleProduct(
+                      prodctTitle: 'Banana',
+                      productImageUrl:
+                          'https://i.insider.com/617315d94f281c001296ae78?width=1000&format=jpeg&auto=webp',
+                      onTap: () {},
+                    ),
+                    SingleProduct(
+                      prodctTitle: 'Pear',
+                      productImageUrl:
+                          'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/pears-28f8900.jpg?webp=true&quality=90&resize=385%2C350',
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ),
@@ -97,7 +124,14 @@ class _HomeScreenState extends State<HomeScreen> {
 class SingleProduct extends StatelessWidget {
   const SingleProduct({
     Key? key,
+    required this.prodctTitle,
+    required this.productImageUrl,
+    required this.onTap,
   }) : super(key: key);
+
+  final String prodctTitle;
+  final String productImageUrl;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -116,15 +150,19 @@ class SingleProduct extends StatelessWidget {
             flex: 2,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 140,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.network(
-                  'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png',
-                  fit: BoxFit.cover,
+              child: GestureDetector(
+                onTap: onTap.call(),
+                child: Container(
+                  width: double.infinity,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Image.network(
+                    productImageUrl,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -136,7 +174,7 @@ class SingleProduct extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  'Fresh Mint'.text.xl.bold.make(),
+                  prodctTitle.text.xl.bold.make(),
                   '50\$/50 gm'.text.make(),
                   SizedBox(
                     width: 100,
