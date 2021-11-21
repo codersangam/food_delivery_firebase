@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/screens/home_screen.dart';
+import 'package:food_delivery/screens/profile_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -39,29 +41,49 @@ class MyDrawer extends StatelessWidget {
             ),
             Column(
               children: [
-                const MyListTile(
+                MyListTile(
                   icon: Icons.home,
                   label: 'Home',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  },
                 ),
-                const MyListTile(
+                MyListTile(
                   icon: Icons.shop,
                   label: 'Cart',
+                  onTap: () {},
                 ),
-                const MyListTile(
+                MyListTile(
                   icon: Icons.person_outline,
                   label: 'Profile',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ProfileScreen(),
+                      ),
+                    );
+                  },
                 ),
-                const MyListTile(
+                MyListTile(
                   icon: Icons.favorite_outline,
                   label: 'Favorite',
+                  onTap: () {},
                 ),
-                const MyListTile(
+                MyListTile(
                   icon: Icons.notifications_outlined,
                   label: 'Notifications',
+                  onTap: () {},
                 ),
-                const MyListTile(
+                MyListTile(
                   icon: Icons.star_outline,
                   label: 'Rating & Review',
+                  onTap: () {},
                 ),
                 20.heightBox,
                 SizedBox(
@@ -102,10 +124,12 @@ class MyListTile extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.label,
+    required this.onTap,
   }) : super(key: key);
 
   final IconData icon;
   final String? label;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +138,7 @@ class MyListTile extends StatelessWidget {
       title: Text(
         label.toString(),
       ),
+      onTap: onTap,
     );
   }
 }
