@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatefulWidget {
-  const ProductDetails({Key? key}) : super(key: key);
+  const ProductDetails(
+      {Key? key, required this.productName, required this.productImageUrl})
+      : super(key: key);
+
+  final String productName;
+  final String productImageUrl;
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -40,7 +45,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               width: double.infinity,
               height: 450,
               child: Image.network(
-                'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg',
+                widget.productImageUrl,
                 fit: BoxFit.fill,
               ),
             ),
@@ -49,9 +54,18 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  'Apple'.text.bold.xl2.make(),
+                  widget.productName.text.bold.xl2.make(),
                   10.heightBox,
-                  '50\$'.text.xl.make(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      '50 gm'.text.xl.make(),
+                      const VxStepper(
+                        min: 1,
+                        max: 20,
+                      )
+                    ],
+                  ),
                   10.heightBox,
                   'Product Details:'.text.bold.xl2.make(),
                   10.heightBox,
@@ -69,16 +83,12 @@ class _ProductDetailsState extends State<ProductDetails> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(right: 20),
-              child: VxStepper(
-                min: 1,
-                max: 20,
-              ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: '90\$'.text.xl2.bold.make(),
             ),
             SizedBox(
               height: 50,
-              width: 250,
               child: ElevatedButton(
                 onPressed: () {},
                 child: 'Add To Cart'.text.make(),

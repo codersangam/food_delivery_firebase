@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/screens/product_details.dart';
 import 'package:food_delivery/widgets/my_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -62,7 +63,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       prodctTitle: 'Fresh Mint',
                       productImageUrl:
                           'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProductDetails(
+                                productName: 'Fresh Mint',
+                                productImageUrl:
+                                    'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png'),
+                          ),
+                        );
+                      },
                     ),
                     SingleProduct(
                       prodctTitle: 'Spinach',
@@ -96,7 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       prodctTitle: 'Apple',
                       productImageUrl:
                           'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProductDetails(
+                                productName: 'Apple',
+                                productImageUrl:
+                                    'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg'),
+                          ),
+                        );
+                      },
                     ),
                     SingleProduct(
                       prodctTitle: 'Banana',
@@ -131,7 +152,7 @@ class SingleProduct extends StatelessWidget {
 
   final String prodctTitle;
   final String productImageUrl;
-  final Function onTap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +172,7 @@ class SingleProduct extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                onTap: onTap.call(),
+                onTap: onTap,
                 child: Container(
                   width: double.infinity,
                   height: 150,
