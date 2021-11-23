@@ -3,11 +3,15 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails(
-      {Key? key, required this.productName, required this.productImageUrl})
+      {Key? key,
+      required this.productName,
+      required this.productImageUrl,
+      required this.productPrice})
       : super(key: key);
 
   final String productName;
   final String productImageUrl;
+  final String productPrice;
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -85,7 +89,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: '90\$'.text.xl2.bold.make(),
+              child: '${widget.productPrice}\$'.text.xl3.bold.make(),
             ),
             SizedBox(
               height: 50,

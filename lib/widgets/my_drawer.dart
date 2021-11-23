@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/profile_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -56,7 +57,14 @@ class MyDrawer extends StatelessWidget {
                 MyListTile(
                   icon: Icons.shop,
                   label: 'Cart',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CartScreen(),
+                      ),
+                    );
+                  },
                 ),
                 MyListTile(
                   icon: Icons.person_outline,

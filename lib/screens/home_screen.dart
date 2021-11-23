@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/provider/product_provider.dart';
+import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/product_details.dart';
+import 'package:food_delivery/screens/search_screen.dart';
 import 'package:food_delivery/widgets/my_drawer.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,21 +15,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ProductProvider? productProvider;
+
+  @override
+  void initState() {
+    ProductProvider productProvider = Provider.of(context, listen: false);
+    productProvider.fetchHerbProducts();
+    productProvider.fetchFruitProducts();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    productProvider = Provider.of(context);
     return Scaffold(
       // backgroundColor: const Color(0xffcbcbcb),
       drawer: const MyDrawer(),
       appBar: AppBar(
         title: 'Home'.text.make(),
-        actions: const [
+        actions: [
           CircleAvatar(
-            child: Icon(Icons.search),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.search)),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: CircleAvatar(
-              child: Icon(Icons.shop),
+              child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CartScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.shop)),
             ),
           ),
         ],
@@ -58,36 +91,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    SingleProduct(
-                      prodctTitle: 'Fresh Mint',
-                      productImageUrl:
-                          'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png',
+                  children: productProvider!.getHerbProducts.map((data) {
+                    return SingleProduct(
+                      prodctTitle: data.productName.toString(),
+                      productImageUrl: data.productImageUrl.toString(),
+                      productPrice: data.productPrice.toString(),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ProductDetails(
-                                productName: 'Fresh Mint',
-                                productImageUrl:
-                                    'https://www.pngall.com/wp-content/uploads/2/Peppermint-PNG-Photo.png'),
+                            builder: (context) => ProductDetails(
+                              productName: data.productName.toString(),
+                              productImageUrl: data.productImageUrl.toString(),
+                              productPrice: data.productPrice.toString(),
+                            ),
                           ),
                         );
                       },
-                    ),
-                    SingleProduct(
-                      prodctTitle: 'Spinach',
-                      productImageUrl:
-                          'https://cdn.mos.cms.futurecdn.net/atyrpYQoxdoTzmEgu8HMWE-970-80.jpg.webp',
-                      onTap: () {},
-                    ),
-                    SingleProduct(
-                      prodctTitle: 'Potato',
-                      productImageUrl:
-                          'https://freshpointlocal.co.uk/wp-content/uploads/2018/12/Potatoes-2.jpg',
-                      onTap: () {},
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
               20.heightBox,
@@ -102,36 +124,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: [
-                    SingleProduct(
-                      prodctTitle: 'Apple',
-                      productImageUrl:
-                          'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg',
+                  children: productProvider!.getFruitProducts.map((data) {
+                    return SingleProduct(
+                      prodctTitle: data.productName.toString(),
+                      productImageUrl: data.productImageUrl.toString(),
+                      productPrice: data.productPrice.toString(),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ProductDetails(
-                                productName: 'Apple',
-                                productImageUrl:
-                                    'https://post.healthline.com/wp-content/uploads/2020/10/apple-basket-apples-732x549-thumbnail-732x549.jpg'),
+                            builder: (context) => ProductDetails(
+                              productName: data.productName.toString(),
+                              productImageUrl: data.productImageUrl.toString(),
+                              productPrice: data.productPrice.toString(),
+                            ),
                           ),
                         );
                       },
-                    ),
-                    SingleProduct(
-                      prodctTitle: 'Banana',
-                      productImageUrl:
-                          'https://i.insider.com/617315d94f281c001296ae78?width=1000&format=jpeg&auto=webp',
-                      onTap: () {},
-                    ),
-                    SingleProduct(
-                      prodctTitle: 'Pear',
-                      productImageUrl:
-                          'https://images.immediate.co.uk/production/volatile/sites/30/2020/02/pears-28f8900.jpg?webp=true&quality=90&resize=385%2C350',
-                      onTap: () {},
-                    ),
-                  ],
+                    );
+                  }).toList(),
                 ),
               ),
             ],
@@ -147,11 +158,13 @@ class SingleProduct extends StatelessWidget {
     Key? key,
     required this.prodctTitle,
     required this.productImageUrl,
+    required this.productPrice,
     required this.onTap,
   }) : super(key: key);
 
   final String prodctTitle;
   final String productImageUrl;
+  final String productPrice;
   final VoidCallback onTap;
 
   @override
@@ -196,7 +209,7 @@ class SingleProduct extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   prodctTitle.text.xl.bold.make(),
-                  '50\$/50 gm'.text.make(),
+                  '$productPrice\$'.text.make(),
                   SizedBox(
                     width: 100,
                     child: OutlinedButton(
