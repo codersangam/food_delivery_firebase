@@ -40,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SearchScreen(),
+                      builder: (context) => SearchScreen(
+                          search: productProvider!.getSearchProducts),
                     ),
                   );
                 },
@@ -84,7 +85,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   'Herbs Seasonings'.text.xl2.bold.make(),
-                  'View All'.text.xl.gray400.make(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen(
+                            search: productProvider!.getHerbProducts,
+                          ),
+                        ),
+                      );
+                    },
+                    child: 'View All'.text.xl.gray400.make(),
+                  ),
                 ],
               ),
               10.heightBox,
@@ -117,7 +130,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   'Fresh Fruits'.text.xl2.bold.make(),
-                  'View All'.text.xl.gray400.make(),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen(
+                            search: productProvider!.getFruitProducts,
+                          ),
+                        ),
+                      );
+                    },
+                    child: 'View All'.text.xl.gray400.make(),
+                  ),
                 ],
               ),
               10.heightBox,
