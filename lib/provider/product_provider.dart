@@ -3,9 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/models/product_model.dart';
 
 class ProductProvider with ChangeNotifier {
-  List<ProductModel> herbProducts = [];
   ProductModel? productModel;
 
+  List<ProductModel> search = [];
+
+  productsModel(QueryDocumentSnapshot element) {
+    productModel = ProductModel(
+      productName: element.get('productName'),
+      productImageUrl: element.get('productImageUrl'),
+      productPrice: element.get('productPrice'),
+    );
+    search.add(productModel!);
+  }
+
+  // Get Fruit Prodcuts
+  List<ProductModel> herbProducts = [];
   fetchHerbProducts() async {
     List<ProductModel> newList = [];
     QuerySnapshot value =
@@ -15,11 +27,7 @@ class ProductProvider with ChangeNotifier {
     value.docs.forEach((element) {
       // ignore: avoid_print
       print(element);
-      productModel = ProductModel(
-        productName: element.get('productName'),
-        productImageUrl: element.get('productImageUrl'),
-        productPrice: element.get('productPrice'),
-      );
+      productsModel(element);
       newList.add(productModel!);
     });
     herbProducts = newList;
@@ -30,9 +38,10 @@ class ProductProvider with ChangeNotifier {
     return herbProducts;
   }
 
+  // Get Fruit Prodcuts
   List<ProductModel> fruitProducts = [];
   fetchFruitProducts() async {
-    List<ProductModel> myList = [];
+    List<ProductModel> newList = [];
     QuerySnapshot value =
         await FirebaseFirestore.instance.collection('FruitProducts').get();
 
@@ -40,18 +49,19 @@ class ProductProvider with ChangeNotifier {
     value.docs.forEach((element) {
       // ignore: avoid_print
       print(element);
-      productModel = ProductModel(
-        productName: element.get('productName'),
-        productImageUrl: element.get('productImageUrl'),
-        productPrice: element.get('productPrice'),
-      );
-      myList.add(productModel!);
+      productsModel(element);
+      newList.add(productModel!);
     });
-    fruitProducts = myList;
+    fruitProducts = newList;
     notifyListeners();
   }
 
   List<ProductModel> get getFruitProducts {
     return fruitProducts;
+  }
+
+  // Return SearchItems
+  List<ProductModel> get getSearchProducts {
+    return search;
   }
 }
