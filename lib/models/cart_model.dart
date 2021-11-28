@@ -1,11 +1,11 @@
-class ProductModel {
+class CartModel {
   String? cartId;
   String? cartName;
   String? cartImageUrl;
   String? cartPrice;
-  int? cartQuantity;
+  String? cartQuantity;
 
-  ProductModel(
+  CartModel(
       {this.cartId,
       this.cartName,
       this.cartImageUrl,
