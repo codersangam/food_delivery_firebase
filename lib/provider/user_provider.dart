@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
   void addUserData({
-    User? currentUser,
+    required User currentUser,
     String? userName,
     String? userImage,
     String? userEmail,
   }) async {
     await FirebaseFirestore.instance
         .collection('usersData')
-        .doc(currentUser!.uid)
+        .doc(currentUser.uid)
         .set({
       'userName': userName,
       'userImage': userImage,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/product_details.dart';
@@ -106,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   children: productProvider!.getHerbProducts.map((data) {
                     return SingleProduct(
+                      productId: data.productId.toString(),
                       prodctTitle: data.productName.toString(),
                       productImageUrl: data.productImageUrl.toString(),
                       productPrice: data.productPrice.toString(),
@@ -151,6 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   children: productProvider!.getFruitProducts.map((data) {
                     return SingleProduct(
+                      productId: data.productId.toString(),
                       prodctTitle: data.productName.toString(),
                       productImageUrl: data.productImageUrl.toString(),
                       productPrice: data.productPrice.toString(),
@@ -178,22 +181,31 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class SingleProduct extends StatelessWidget {
+class SingleProduct extends StatefulWidget {
   const SingleProduct({
     Key? key,
+    required this.productId,
     required this.prodctTitle,
     required this.productImageUrl,
     required this.productPrice,
     required this.onTap,
   }) : super(key: key);
 
+  final String productId;
   final String prodctTitle;
   final String productImageUrl;
   final String productPrice;
   final VoidCallback onTap;
 
   @override
+  State<SingleProduct> createState() => _SingleProductState();
+}
+
+class _SingleProductState extends State<SingleProduct> {
+  int cart = 0;
+  @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       height: 280,
@@ -210,7 +222,7 @@ class SingleProduct extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
-                onTap: onTap,
+                onTap: widget.onTap,
                 child: Container(
                   width: double.infinity,
                   height: 150,
@@ -219,7 +231,7 @@ class SingleProduct extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Image.network(
-                    productImageUrl,
+                    widget.productImageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -233,23 +245,53 @@ class SingleProduct extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  prodctTitle.text.xl.bold.make(),
-                  '$productPrice\$'.text.make(),
-                  SizedBox(
-                    width: 100,
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      child: Row(
-                        children: [
-                          '50 gm'.text.make(),
-                          const Icon(Icons.arrow_drop_down),
-                        ],
+                  widget.prodctTitle.text.xl.bold.make(),
+                  '${widget.productPrice}\$'.text.make(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: OutlinedButton(
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              '50 gm'.text.make(),
+                              const Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: IconButton(
+                          color: Vx.white,
+                          onPressed: () {
+                            cartProvider.addCartData(
+                              cartId: widget.productId,
+                              cartName: widget.prodctTitle,
+                              cartImage: widget.productImageUrl,
+                              cartPrice: widget.productPrice,
+                              cartQuantity: cart.toString(),
+                            );
+                          },
+                          icon: const Icon(Icons.add),
+                        ),
+                      ),
+                    ],
                   ),
-                  const VxStepper(
+                  VxStepper(
                     min: 1,
                     max: 20,
+                    step: 1,
+                    onChange: (value) {
+                      cart = value;
+                    },
                   )
                 ],
               ),
