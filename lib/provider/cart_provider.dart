@@ -55,4 +55,15 @@ class CartProvider extends ChangeNotifier {
   List<CartModel> get getCartProducts {
     return cartItems;
   }
+
+  // Delete cartProducts
+  void deleteCartProducts(cartId) {
+    FirebaseFirestore.instance
+        .collection('cartsData')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('CustomerCart')
+        .doc(cartId)
+        .delete();
+    notifyListeners();
+  }
 }

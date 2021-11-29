@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
+import 'package:food_delivery/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -15,22 +16,37 @@ class CartScreen extends StatelessWidget {
       appBar: AppBar(
         title: 'Cart'.text.make(),
       ),
-      body: ListView.builder(
-          itemCount: cartProvider.getCartProducts.length,
-          itemBuilder: (context, index) {
-            CartModel data = cartProvider.getCartProducts[index];
-            // ignore: avoid_print
-            print(data);
-            return Column(
+      body: cartProvider.getCartProducts.isEmpty
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CartItems(
-                  productName: data.cartName.toString(),
-                  productImageUrl: data.cartImageUrl.toString(),
-                  productPrice: data.cartPrice.toString(),
-                ),
+                Image.asset(
+                  'assets/images/empty_cart.png',
+                  fit: BoxFit.contain,
+                  width: 100,
+                  height: 100,
+                ).centered(),
               ],
-            );
-          }),
+            )
+          : ListView.builder(
+              itemCount: cartProvider.getCartProducts.length,
+              itemBuilder: (context, index) {
+                CartModel data = cartProvider.getCartProducts[index];
+                // ignore: avoid_print
+                print(data);
+                return Column(
+                  children: [
+                    CartItems(
+                      productId: data.cartId.toString(),
+                      productName: data.cartName.toString(),
+                      productImageUrl: data.cartImageUrl.toString(),
+                      productPrice: data.cartPrice.toString(),
+                      productQuantity: data.cartQuantity.toString(),
+                    ),
+                  ],
+                );
+              }),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -56,16 +72,20 @@ class CartScreen extends StatelessWidget {
 }
 
 class CartItems extends StatelessWidget {
-  const CartItems({
-    Key? key,
-    required this.productName,
-    required this.productImageUrl,
-    required this.productPrice,
-  }) : super(key: key);
+  const CartItems(
+      {Key? key,
+      required this.productId,
+      required this.productName,
+      required this.productImageUrl,
+      required this.productPrice,
+      required this.productQuantity})
+      : super(key: key);
 
+  final String productId;
   final String productName;
   final String productImageUrl;
   final String productPrice;
+  final String productQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +97,25 @@ class CartItems extends StatelessWidget {
         children: [
           '$productPrice\$/50 gm'.text.make(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Utils.showMessage(
+                  context,
+                  "Food Delivery",
+                  'Remove Item?',
+                  'Yes',
+                  () {
+                    Provider.of<CartProvider>(context, listen: false)
+                        .deleteCartProducts(
+                      productId,
+                    );
+                    Navigator.of(context).pop();
+                  },
+                  buttonText2: 'No',
+                  isConfirmDialog: true,
+                  onPressed2: () {
+                    Navigator.of(context).pop();
+                  });
+            },
             icon: const Icon(Icons.delete),
           ),
         ],
