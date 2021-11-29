@@ -71,8 +71,9 @@ class CartScreen extends StatelessWidget {
   }
 }
 
-class CartItems extends StatelessWidget {
-  const CartItems(
+// ignore: must_be_immutable
+class CartItems extends StatefulWidget {
+  CartItems(
       {Key? key,
       required this.productId,
       required this.productName,
@@ -85,17 +86,25 @@ class CartItems extends StatelessWidget {
   final String productName;
   final String productImageUrl;
   final String productPrice;
-  final String productQuantity;
+  String? productQuantity;
+
+  @override
+  State<CartItems> createState() => _CartItemsState();
+}
+
+class _CartItemsState extends State<CartItems> {
+  int cart = 1;
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return ListTile(
-      leading: Image.network(productImageUrl),
-      title: productName.text.make(),
+      leading: Image.network(widget.productImageUrl),
+      title: widget.productName.text.make(),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          '$productPrice\$/50 gm'.text.make(),
+          '${widget.productPrice}\$/50 gm'.text.make(),
           IconButton(
             onPressed: () {
               Utils.showMessage(
@@ -106,7 +115,7 @@ class CartItems extends StatelessWidget {
                   () {
                     Provider.of<CartProvider>(context, listen: false)
                         .deleteCartProducts(
-                      productId,
+                      widget.productId,
                     );
                     Navigator.of(context).pop();
                   },
@@ -120,9 +129,19 @@ class CartItems extends StatelessWidget {
           ),
         ],
       ),
-      trailing: const VxStepper(
+      trailing: VxStepper(
         min: 1,
         max: 20,
+        onChange: (value) {
+          cart = value;
+          cartProvider.updateCartData(
+            cartId: widget.productId,
+            cartName: widget.productName,
+            cartImage: widget.productImageUrl,
+            cartPrice: widget.productPrice,
+            cartQuantity: cart.toString(),
+          );
+        },
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/provider/user_provider.dart';
-import 'package:food_delivery/screens/home_screen.dart';
+import 'package:food_delivery/screens/auth/login_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        home: const HomeScreen(),
+        home: const LoginScreen(),
       ),
     );
   }
