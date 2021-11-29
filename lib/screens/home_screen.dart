@@ -202,13 +202,13 @@ class SingleProduct extends StatefulWidget {
 }
 
 class _SingleProductState extends State<SingleProduct> {
-  int cart = 0;
+  int cart = 1;
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      height: 280,
+      height: 220,
       width: 160,
       decoration: BoxDecoration(
         color: Vx.gray200,
@@ -279,20 +279,13 @@ class _SingleProductState extends State<SingleProduct> {
                               cartPrice: widget.productPrice,
                               cartQuantity: cart.toString(),
                             );
+                            VxToast.show(context, msg: 'Items Addded to Cart');
                           },
                           icon: const Icon(Icons.add),
                         ),
                       ),
                     ],
                   ),
-                  VxStepper(
-                    min: 1,
-                    max: 20,
-                    step: 1,
-                    onChange: (value) {
-                      cart = value;
-                    },
-                  )
                 ],
               ),
             ),

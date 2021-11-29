@@ -66,4 +66,26 @@ class CartProvider extends ChangeNotifier {
         .delete();
     notifyListeners();
   }
+
+  // Update Cart Products
+  void updateCartData({
+    String? cartId,
+    String? cartName,
+    String? cartImage,
+    String? cartPrice,
+    String? cartQuantity,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('cartsData')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('CustomerCart')
+        .doc(cartId)
+        .update({
+      'cartId': cartId,
+      'cartName': cartName,
+      'cartImage': cartImage,
+      'cartPrice': cartPrice,
+      'cartQuantity': cartQuantity,
+    });
+  }
 }
