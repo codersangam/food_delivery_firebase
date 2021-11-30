@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/screens/cart_screen.dart';
+import 'package:food_delivery/screens/wishlist_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -30,11 +32,25 @@ class _ProductDetailsState extends State<ProductDetails> {
                 icon: const Icon(Icons.share),
               ),
               IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.favorite),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WishListScrenn(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.favorite_border_outlined),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartScreen(),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.shopping_cart),
               ),
             ],

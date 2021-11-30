@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
+import 'package:food_delivery/provider/wishlist_provider.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/product_details.dart';
 import 'package:food_delivery/screens/search_screen.dart';
@@ -203,12 +204,14 @@ class SingleProduct extends StatefulWidget {
 
 class _SingleProductState extends State<SingleProduct> {
   int cart = 1;
+  bool isWishList = false;
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
+    WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
-      height: 220,
+      height: 250,
       width: 160,
       decoration: BoxDecoration(
         color: Vx.gray200,
@@ -239,7 +242,7 @@ class _SingleProductState extends State<SingleProduct> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -285,6 +288,25 @@ class _SingleProductState extends State<SingleProduct> {
                         ),
                       ),
                     ],
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isWishList = isWishList.toggle();
+                        wishListProvider.addWishListData(
+                          wishListId: widget.productId,
+                          wishListName: widget.prodctTitle,
+                          wishListImage: widget.productImageUrl,
+                          wishListPrice: widget.productPrice,
+                        );
+                      });
+                    },
+                    icon: isWishList
+                        ? const Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                        : const Icon(Icons.favorite_border_outlined),
                   ),
                 ],
               ),
