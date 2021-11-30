@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
@@ -205,10 +207,36 @@ class SingleProduct extends StatefulWidget {
 class _SingleProductState extends State<SingleProduct> {
   int cart = 1;
   bool isWishList = false;
+
+  getWishtListBool() {
+    FirebaseFirestore.instance
+        .collection("wishListData")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("CustomerWishList")
+        .doc(widget.productId)
+        .get()
+        .then(
+          (value) => {
+            if (mounted)
+              {
+                if (value.exists)
+                  {
+                    setState(
+                      () {
+                        isWishList = value.get("wishList");
+                      },
+                    ),
+                  },
+              },
+          },
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
+    getWishtListBool();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       height: 250,
@@ -293,12 +321,18 @@ class _SingleProductState extends State<SingleProduct> {
                     onPressed: () {
                       setState(() {
                         isWishList = isWishList.toggle();
-                        wishListProvider.addWishListData(
-                          wishListId: widget.productId,
-                          wishListName: widget.prodctTitle,
-                          wishListImage: widget.productImageUrl,
-                          wishListPrice: widget.productPrice,
-                        );
+                        isWishList
+                            ? wishListProvider.addWishListData(
+                                wishListId: widget.productId,
+                                wishListName: widget.prodctTitle,
+                                wishListImage: widget.productImageUrl,
+                                wishListPrice: widget.productPrice,
+                              )
+                            : Provider.of<WishListProvider>(context,
+                                    listen: false)
+                                .deleteWishListProducts(
+                                widget.productId,
+                              );
                       });
                     },
                     icon: isWishList
