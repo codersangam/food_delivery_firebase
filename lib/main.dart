@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/provider/user_provider.dart';
+import 'package:food_delivery/provider/wishlist_provider.dart';
 import 'package:food_delivery/screens/auth/login_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<CartProvider>(
           create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider<WishListProvider>(
+          create: (context) => WishListProvider(),
         ),
       ],
       child: MaterialApp(

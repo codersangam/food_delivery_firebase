@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/profile_screen.dart';
+import 'package:food_delivery/screens/wishlist_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -81,7 +82,14 @@ class MyDrawer extends StatelessWidget {
                 MyListTile(
                   icon: Icons.favorite_outline,
                   label: 'Favorite',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WishListScrenn(),
+                      ),
+                    );
+                  },
                 ),
                 MyListTile(
                   icon: Icons.notifications_outlined,
