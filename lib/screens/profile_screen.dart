@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/provider/user_provider.dart';
 import 'package:food_delivery/widgets/my_drawer.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({
+    Key? key,
+    required this.userProvider,
+  }) : super(key: key);
+
+  final UserProvider userProvider;
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
   Widget build(BuildContext context) {
+    var userData = widget.userProvider.currentData;
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
         title: 'My Profile'.text.make(),
         elevation: 0.0,
       ),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(
+        userProvider: widget.userProvider,
+      ),
       body: Stack(
         children: [
           Column(
@@ -50,9 +64,9 @@ class ProfileScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  'Sangam Singh'.text.bold.xl2.make(),
+                                  userData!.userName!.text.bold.xl2.make(),
                                   10.heightBox,
-                                  'sangam.robo@gmail.com'.text.lg.make(),
+                                  userData.userEmail!.text.lg.make(),
                                 ],
                               ),
                               IconButton(
@@ -83,15 +97,15 @@ class ProfileScreen extends StatelessWidget {
               ).expand()
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 40, left: 30),
+          Padding(
+            padding: const EdgeInsets.only(top: 40, left: 30),
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.red,
               child: CircleAvatar(
                 radius: 45,
                 backgroundColor: Colors.red,
-                backgroundImage: NetworkImage(
+                backgroundImage: NetworkImage(userData.userImage ??
                     'https://avatars.githubusercontent.com/u/66767187?v=4'),
               ),
             ),
