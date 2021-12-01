@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
+import 'package:food_delivery/provider/user_provider.dart';
 import 'package:food_delivery/provider/wishlist_provider.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/product_details.dart';
@@ -32,9 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     productProvider = Provider.of(context);
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    userProvider.fetchUserDetails();
     return Scaffold(
       // backgroundColor: const Color(0xffcbcbcb),
-      drawer: const MyDrawer(),
+      drawer: MyDrawer(
+        userProvider: userProvider,
+      ),
       appBar: AppBar(
         title: 'Home'.text.make(),
         actions: [

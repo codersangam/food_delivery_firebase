@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/provider/user_provider.dart';
 import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/home_screen.dart';
 import 'package:food_delivery/screens/profile_screen.dart';
 import 'package:food_delivery/screens/wishlist_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
   const MyDrawer({
     Key? key,
+    required this.userProvider,
   }) : super(key: key);
 
+  final UserProvider userProvider;
+
+  @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    userProvider.fetchUserDetails();
+    var userData = userProvider.currentData;
     return Drawer(
       child: Container(
         color: Vx.red500,
@@ -19,23 +32,23 @@ class MyDrawer extends StatelessWidget {
           children: [
             DrawerHeader(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CircleAvatar(
-                    radius: 40,
-                    child: Image.network(
-                        'https://avatars.githubusercontent.com/u/66767187?v=4'),
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 48,
+                      backgroundColor: Colors.white,
+                      backgroundImage: NetworkImage(userData!.userImage ??
+                          'https://avatars.githubusercontent.com/u/66767187?v=4'),
+                    ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      'Welcome Guest'.text.white.make(),
-                      OutlinedButton(
-                        onPressed: () {},
-                        child: 'Login'.text.make(),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Vx.white),
-                        ),
-                      ),
+                      userData.userName!.text.xl.bold.white.make(),
+                      userData.userEmail!.text.white.make(),
                     ],
                   )
                 ],
@@ -74,7 +87,9 @@ class MyDrawer extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ProfileScreen(),
+                        builder: (context) => ProfileScreen(
+                          userProvider: widget.userProvider,
+                        ),
                       ),
                     );
                   },
