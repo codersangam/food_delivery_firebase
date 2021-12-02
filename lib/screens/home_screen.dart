@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/models/product_model.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/provider/user_provider.dart';
@@ -9,6 +10,7 @@ import 'package:food_delivery/screens/cart_screen.dart';
 import 'package:food_delivery/screens/product_details.dart';
 import 'package:food_delivery/screens/search_screen.dart';
 import 'package:food_delivery/widgets/my_drawer.dart';
+import 'package:food_delivery/widgets/product_unit.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -119,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       prodctTitle: data.productName.toString(),
                       productImageUrl: data.productImageUrl.toString(),
                       productPrice: data.productPrice.toString(),
+                      productUnit: data,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -165,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       prodctTitle: data.productName.toString(),
                       productImageUrl: data.productImageUrl.toString(),
                       productPrice: data.productPrice.toString(),
+                      productUnit: data,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -189,6 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// ignore: must_be_immutable
 class SingleProduct extends StatefulWidget {
   const SingleProduct({
     Key? key,
@@ -197,12 +202,14 @@ class SingleProduct extends StatefulWidget {
     required this.productImageUrl,
     required this.productPrice,
     required this.onTap,
+    required this.productUnit,
   }) : super(key: key);
 
   final String productId;
   final String prodctTitle;
   final String productImageUrl;
   final String productPrice;
+  final ProductModel productUnit;
   final VoidCallback onTap;
 
   @override
@@ -212,6 +219,9 @@ class SingleProduct extends StatefulWidget {
 class _SingleProductState extends State<SingleProduct> {
   int cart = 1;
   bool isWishList = false;
+
+  String? unitData;
+  String? firstData;
 
   getWishtListBool() {
     FirebaseFirestore.instance
@@ -241,6 +251,15 @@ class _SingleProductState extends State<SingleProduct> {
   Widget build(BuildContext context) {
     CartProvider cartProvider = Provider.of<CartProvider>(context);
     WishListProvider wishListProvider = Provider.of<WishListProvider>(context);
+
+    // Get First Unit Data
+    widget.productUnit.productUnit!.firstWhere((element) {
+      setState(() {
+        firstData = element;
+      });
+      return true;
+    });
+
     getWishtListBool();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -282,22 +301,79 @@ class _SingleProductState extends State<SingleProduct> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   widget.prodctTitle.text.xl.bold.make(),
-                  '${widget.productPrice}\$'.text.make(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: 100,
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              '50 gm'.text.make(),
-                              const Icon(Icons.arrow_drop_down),
-                            ],
-                          ),
-                        ),
+                      '${widget.productPrice}\$/$unitData'.text.lg.make(),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isWishList = isWishList.toggle();
+                            isWishList
+                                ? wishListProvider.addWishListData(
+                                    wishListId: widget.productId,
+                                    wishListName: widget.prodctTitle,
+                                    wishListImage: widget.productImageUrl,
+                                    wishListPrice: widget.productPrice,
+                                  )
+                                : Provider.of<WishListProvider>(context,
+                                        listen: false)
+                                    .deleteWishListProducts(
+                                    widget.productId,
+                                  );
+                          });
+                        },
+                        icon: isWishList
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : const Icon(Icons.favorite_border_outlined),
+                      ),
+                    ],
+                  ),
+                  10.heightBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ProductUnit(
+                        title: unitData ?? firstData.toString(),
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: widget.productUnit.productUnit!
+                                      .map<Widget>((data) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              setState(() {
+                                                unitData = data;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              data,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  }).toList(),
+                                );
+                              });
+                        },
                       ),
                       Container(
                         height: 40,
@@ -314,6 +390,7 @@ class _SingleProductState extends State<SingleProduct> {
                               cartImage: widget.productImageUrl,
                               cartPrice: widget.productPrice,
                               cartQuantity: cart.toString(),
+                              cartUnit: unitData,
                             );
                             VxToast.show(context, msg: 'Items Addded to Cart');
                           },
@@ -321,31 +398,6 @@ class _SingleProductState extends State<SingleProduct> {
                         ),
                       ),
                     ],
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isWishList = isWishList.toggle();
-                        isWishList
-                            ? wishListProvider.addWishListData(
-                                wishListId: widget.productId,
-                                wishListName: widget.prodctTitle,
-                                wishListImage: widget.productImageUrl,
-                                wishListPrice: widget.productPrice,
-                              )
-                            : Provider.of<WishListProvider>(context,
-                                    listen: false)
-                                .deleteWishListProducts(
-                                widget.productId,
-                              );
-                      });
-                    },
-                    icon: isWishList
-                        ? const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                          )
-                        : const Icon(Icons.favorite_border_outlined),
                   ),
                 ],
               ),

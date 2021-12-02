@@ -43,6 +43,7 @@ class CartScreen extends StatelessWidget {
                       productImageUrl: data.cartImageUrl.toString(),
                       productPrice: data.cartPrice.toString(),
                       productQuantity: data.cartQuantity.toString(),
+                      productUnit: data.cartUnit.toString(),
                     ),
                   ],
                 );
@@ -79,7 +80,8 @@ class CartItems extends StatefulWidget {
       required this.productName,
       required this.productImageUrl,
       required this.productPrice,
-      required this.productQuantity})
+      required this.productQuantity,
+      required this.productUnit})
       : super(key: key);
 
   final String productId;
@@ -87,6 +89,7 @@ class CartItems extends StatefulWidget {
   final String productImageUrl;
   final String productPrice;
   String? productQuantity;
+  final String productUnit;
 
   @override
   State<CartItems> createState() => _CartItemsState();
@@ -104,7 +107,7 @@ class _CartItemsState extends State<CartItems> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          '${widget.productPrice}\$/50 gm'.text.make(),
+          '${widget.productPrice}\$/${widget.productUnit}'.text.sm.make(),
           IconButton(
             onPressed: () {
               Utils.showMessage(
