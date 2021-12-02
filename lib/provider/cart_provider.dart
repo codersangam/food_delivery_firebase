@@ -11,6 +11,7 @@ class CartProvider extends ChangeNotifier {
     String? cartImage,
     String? cartPrice,
     String? cartQuantity,
+    String? cartUnit,
   }) async {
     await FirebaseFirestore.instance
         .collection('cartsData')
@@ -23,6 +24,7 @@ class CartProvider extends ChangeNotifier {
       'cartImage': cartImage,
       'cartPrice': cartPrice,
       'cartQuantity': cartQuantity,
+      'cartUnit': cartUnit,
     });
   }
 
@@ -45,6 +47,7 @@ class CartProvider extends ChangeNotifier {
         cartImageUrl: element.get('cartImage'),
         cartPrice: element.get('cartPrice'),
         cartQuantity: element.get('cartQuantity'),
+        cartUnit: element.get('cartUnit'),
       );
       newList.add(cartModel);
     });
