@@ -59,6 +59,17 @@ class CartProvider extends ChangeNotifier {
     return cartItems;
   }
 
+  // Get Total Price
+  getTotalPrice() {
+    double totalAmount = 0.0;
+    for (var element in cartItems) {
+      double? price = double.tryParse(element.cartPrice.toString());
+      double? quantity = double.tryParse(element.cartQuantity.toString());
+      totalAmount += (price! * quantity!);
+    }
+    return totalAmount;
+  }
+
   // Delete cartProducts
   void deleteCartProducts(cartId) {
     FirebaseFirestore.instance

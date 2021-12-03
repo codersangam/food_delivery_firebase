@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/models/cart_model.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
+import 'package:food_delivery/screens/checkout_screen.dart';
 import 'package:food_delivery/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -55,13 +56,22 @@ class CartScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: '90\$'.text.xl3.bold.make(),
+              child: '${cartProvider.getTotalPrice()}\$'.text.xl3.bold.make(),
+
+              // child: Text('${cartProvider.getTotalPrice()}'),
             ),
             SizedBox(
               height: 50,
               width: 200,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CheckoutScreen(),
+                    ),
+                  );
+                },
                 child: 'Checkout'.text.xl.make(),
               ),
             ),
