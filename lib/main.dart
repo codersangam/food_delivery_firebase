@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:food_delivery/provider/cart_provider.dart';
+import 'package:food_delivery/provider/checkout_provider.dart';
 import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/provider/user_provider.dart';
 import 'package:food_delivery/provider/wishlist_provider.dart';
@@ -32,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<WishListProvider>(
           create: (context) => WishListProvider(),
+        ),
+        ChangeNotifierProvider<CheckoutProvider>(
+          create: (context) => CheckoutProvider(),
         ),
       ],
       child: MaterialApp(

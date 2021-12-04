@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  CustomTextField(
+  const CustomTextField(
       {Key? key,
       required this.labelText,
-      this.controller,
+      required this.controller,
       required this.keyBoardType})
       : super(key: key);
 
   final String labelText;
-  TextEditingController? controller;
+  final TextEditingController controller;
   final TextInputType keyBoardType;
 
   @override
