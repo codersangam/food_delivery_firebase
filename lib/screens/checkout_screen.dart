@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/screens/add_delivery_address.dart';
+import 'package:food_delivery/screens/payment_summary.dart';
 import 'package:food_delivery/widgets/delivery_address.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -27,7 +28,15 @@ class CheckoutScreen extends StatelessWidget {
         width: double.infinity,
         height: 50,
         child: ElevatedButton(
-            onPressed: () {}, child: 'Go to Payment'.text.lg.make()),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PaymentSummary(),
+                ),
+              );
+            },
+            child: 'Go to Payment'.text.lg.make()),
       ).p12(),
       body: Column(
         children: [
