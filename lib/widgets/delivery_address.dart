@@ -6,12 +6,14 @@ class DeliveryAdress extends StatelessWidget {
       {Key? key,
       required this.fullName,
       required this.fullAddress,
-      required this.phoneNumber})
+      required this.phoneNumber,
+      required this.addressType})
       : super(key: key);
 
   final String fullName;
   final String fullAddress;
   final String phoneNumber;
+  final String addressType;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,21 @@ class DeliveryAdress extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          fullName.text.xl2.bold.make(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              fullName.text.xl2.bold.make(),
+              Container(
+                height: 20,
+                width: 50,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: addressType.text.white.bold.makeCentered(),
+              ),
+            ],
+          ),
           8.heightBox,
           fullAddress.text.lg.maxLines(2).make(),
           8.heightBox,
