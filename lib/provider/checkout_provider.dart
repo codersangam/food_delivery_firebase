@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_delivery/models/delivery_address_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CheckoutProvider with ChangeNotifier {
@@ -57,5 +58,36 @@ class CheckoutProvider with ChangeNotifier {
       });
       notifyListeners();
     }
+  }
+
+  // Get Delivery Address Details
+  List<DeliveryAddressModel> deliveryAddress = [];
+
+  getDeliveryAddressDetail() async {
+    List<DeliveryAddressModel> newDeliveryAddress = [];
+    DocumentSnapshot data = await FirebaseFirestore.instance
+        .collection('DeliveryAddress')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+
+    if (data.exists) {
+      DeliveryAddressModel deliveryAddressModel = DeliveryAddressModel(
+        firstName: data.get('First Name'),
+        lastName: data.get('Last Name'),
+        addressOne: data.get('Address1'),
+        city: data.get('City'),
+        state: data.get('State'),
+        pincode: data.get('Pincode'),
+        country: data.get('Country'),
+        phone: data.get('Phone'),
+      );
+      newDeliveryAddress.add(deliveryAddressModel);
+    }
+    deliveryAddress = newDeliveryAddress;
+    notifyListeners();
+  }
+
+  List<DeliveryAddressModel> get getDeliveryAddressDetails {
+    return deliveryAddress;
   }
 }
