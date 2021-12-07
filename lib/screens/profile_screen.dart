@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/provider/user_provider.dart';
+import 'package:food_delivery/screens/auth/login_screen.dart';
 import 'package:food_delivery/widgets/my_drawer.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var userData = widget.userProvider.currentData;
+    UserProvider userProvider = Provider.of(context);
     return Scaffold(
       backgroundColor: Colors.red,
       appBar: AppBar(
@@ -79,19 +82,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
-                    listTile(icon: Icons.shop_outlined, title: 'My Orders'),
+                    listTile(
+                        icon: Icons.shop_outlined,
+                        title: 'My Orders',
+                        onTap: () {}),
                     listTile(
                         icon: Icons.location_on_outlined,
-                        title: 'My Delivery Address'),
+                        title: 'My Delivery Address',
+                        onTap: () {}),
                     listTile(
-                        icon: Icons.person_outline, title: 'Refer A Friend'),
+                        icon: Icons.person_outline,
+                        title: 'Refer A Friend',
+                        onTap: () {}),
                     listTile(
                         icon: Icons.file_copy_outlined,
-                        title: 'Terms and Conditions'),
+                        title: 'Terms and Conditions',
+                        onTap: () {}),
                     listTile(
-                        icon: Icons.policy_outlined, title: 'Privacy Policy'),
-                    listTile(icon: Icons.add_chart, title: 'About'),
-                    listTile(icon: Icons.exit_to_app_outlined, title: 'Logout'),
+                        icon: Icons.policy_outlined,
+                        title: 'Privacy Policy',
+                        onTap: () {}),
+                    listTile(
+                        icon: Icons.add_chart, title: 'About', onTap: () {}),
+                    listTile(
+                      icon: Icons.exit_to_app_outlined,
+                      title: 'Logout',
+                      onTap: () {
+                        userProvider.signOut(context).then(
+                              (value) => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              ),
+                            );
+                      },
+                    ),
                   ],
                 ),
               ).expand()
@@ -115,16 +141,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget listTile({IconData? icon, String? title}) {
+  Widget listTile(
+      {IconData? icon, String? title, required VoidCallback onTap}) {
     return Column(
       children: [
         const Divider(
           height: 1,
         ),
-        ListTile(
-          leading: Icon(icon),
-          title: Text(title.toString()),
-          trailing: const Icon(Icons.arrow_forward_ios),
+        InkWell(
+          onTap: onTap,
+          child: ListTile(
+            leading: Icon(icon),
+            title: Text(title.toString()),
+            trailing: const Icon(Icons.arrow_forward_ios),
+          ),
         )
       ],
     );

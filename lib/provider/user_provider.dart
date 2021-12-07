@@ -45,4 +45,10 @@ class UserProvider extends ChangeNotifier {
   UserModel? get getUserDetails {
     return currentData;
   }
+
+  // User Logout
+  Future<void> signOut(context) async {
+    Navigator.pop(context);
+    await FirebaseAuth.instance.signOut();
+  }
 }

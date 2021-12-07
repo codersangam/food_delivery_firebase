@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/models/delivery_address_model.dart';
 import 'package:food_delivery/provider/checkout_provider.dart';
 import 'package:food_delivery/screens/add_delivery_address.dart';
 import 'package:food_delivery/screens/payment_summary.dart';
@@ -6,9 +7,16 @@ import 'package:food_delivery/widgets/delivery_address.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+DeliveryAddressModel? data;
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     CheckoutProvider checkoutProvider = Provider.of<CheckoutProvider>(context);
@@ -36,7 +44,8 @@ class CheckoutScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PaymentSummary(),
+                  builder: (context) =>
+                      PaymentSummary(deliveryAddressDetails: data),
                 ),
               );
             },
@@ -67,6 +76,9 @@ class CheckoutScreen extends StatelessWidget {
                 ).p12()
               : Column(
                   children: checkoutProvider.getDeliveryAddressDetails.map((e) {
+                  setState(() {
+                    data = e;
+                  });
                   return DeliveryAdress(
                     fullName:
                         '${e.firstName.toString()} ${e.lastName.toString()}',
