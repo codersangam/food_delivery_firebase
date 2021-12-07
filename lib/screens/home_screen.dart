@@ -304,7 +304,7 @@ class _SingleProductState extends State<SingleProduct> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      '${widget.productPrice}\$/$unitData'.text.lg.make(),
+                      '${widget.productPrice}\$/$firstData'.text.lg.make(),
                       IconButton(
                         onPressed: () {
                           setState(() {

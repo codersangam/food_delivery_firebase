@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery/models/delivery_address_model.dart';
+import 'package:food_delivery/provider/cart_provider.dart';
 import 'package:food_delivery/widgets/ordered_items.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PaymentSummary extends StatefulWidget {
-  const PaymentSummary({Key? key}) : super(key: key);
+  const PaymentSummary({Key? key, required this.deliveryAddressDetails})
+      : super(key: key);
+
+  final DeliveryAddressModel? deliveryAddressDetails;
 
   @override
   _PaymentSummaryState createState() => _PaymentSummaryState();
@@ -20,6 +26,21 @@ class _PaymentSummaryState extends State<PaymentSummary> {
   var myPayment = PaymentMethods.cod;
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of(context);
+    cartProvider.getCartProduct();
+
+    double discount = 10.0;
+    double shippingCharges = 20.0;
+    double subtotal = cartProvider.getTotalPrice();
+    double total = 0.0;
+    if (subtotal > 300) {
+      // For % Discount
+      // double discount = (subtotal * discountCoupon) / 100;
+      total = (subtotal + shippingCharges) - discount;
+    } else {
+      total = subtotal + shippingCharges;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: 'Payment Summary'.text.make(),
@@ -31,7 +52,8 @@ class _PaymentSummaryState extends State<PaymentSummary> {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 20),
-              child: '\$900'.text.xl3.bold.make(),
+              child: "\$$total".text.lg.make(),
+              // 'lol'.text.xl3.bold.make(),
             ),
             SizedBox(
               height: 50,
@@ -51,40 +73,51 @@ class _PaymentSummaryState extends State<PaymentSummary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ListTile(
-                title: 'Sangam Singh'.text.bold.xl2.make(),
-                subtitle:
-                    '#27 Chaitanya PG, Opp. KNS College, Thirumenahalli, Bangalore, Karnataka 560064'
+                title:
+                    '${widget.deliveryAddressDetails!.firstName!} ${widget.deliveryAddressDetails!.lastName!}'
                         .text
+                        .bold
+                        .xl2
+                        .make(),
+                subtitle:
+                    '${widget.deliveryAddressDetails!.addressOne}, ${widget.deliveryAddressDetails!.city}, ${widget.deliveryAddressDetails!.state}, ${widget.deliveryAddressDetails!.pincode}, ${widget.deliveryAddressDetails!.country}, ${widget.deliveryAddressDetails!.phone}'
+                        .text
+                        .lg
                         .make(),
               ),
               const Divider(
                 color: Colors.black,
               ),
               ExpansionTile(
-                children: const [
-                  OrderedItems(),
-                  OrderedItems(),
-                  OrderedItems(),
-                  OrderedItems(),
-                  OrderedItems(),
-                  OrderedItems(),
-                ],
-                title: 'Ordered Items 6'.text.make(),
-              ),
+                  children: cartProvider.getCartProducts.map((e) {
+                    return OrderedItems(
+                      data: e,
+                    );
+                  }).toList(),
+                  title: Row(
+                    children: [
+                      'Ordered Items'.text.lg.make(),
+                      '(${cartProvider.getCartProducts.length})'
+                          .text
+                          .lg
+                          .bold
+                          .make(),
+                    ],
+                  )),
               const Divider(
                 color: Colors.black,
               ),
               ListTile(
                 leading: 'Sub Total'.text.bold.lg.make(),
-                trailing: '300\$'.text.lg.make(),
+                trailing: '$subtotal\$'.text.lg.make(),
               ),
               ListTile(
                 leading: 'Shipping Charges'.text.bold.lg.make(),
-                trailing: '0.0\$'.text.lg.make(),
+                trailing: '$shippingCharges\$'.text.lg.make(),
               ),
               ListTile(
                 leading: 'Coupon'.text.bold.lg.make(),
-                trailing: '10\$'.text.lg.make(),
+                trailing: '$discount\$'.text.lg.make(),
               ),
               ListTile(
                 leading: 'Payment Methods'.text.bold.xl2.make(),
