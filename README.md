@@ -1,16 +1,23 @@
-# food_delivery
+# Grocery Delivery (Firebase)
 
-A new Flutter project.
+A Grocery Delivery project.
 
-## Getting Started
+# Tools Used
+- Velocity_x
+- google_sign_in
+- firebase_auth
+- cloud_firestore
+- Provider(State Management)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+# Preview
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](img9.jpeg)
+![](img8.jpeg)
+![](img7.jpeg)
+![](img6.jpeg)
+![](img5.jpeg)
+![](img4.jpeg)
+![](img3.jpeg)
+![](img2.jpeg)
+![](img1.jpeg)
