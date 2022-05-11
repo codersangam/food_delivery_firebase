@@ -7,7 +7,7 @@ A Grocery Delivery project.
 - google_sign_in
 - firebase_auth
 - cloud_firestore
-- provider(state management)
+- Provider(State Management)
 
 
 # Preview
