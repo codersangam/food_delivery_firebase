@@ -6,6 +6,7 @@ import 'package:food_delivery/provider/product_provider.dart';
 import 'package:food_delivery/provider/user_provider.dart';
 import 'package:food_delivery/provider/wishlist_provider.dart';
 import 'package:food_delivery/screens/auth/login_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.red,
+          fontFamily: GoogleFonts.poppins().fontFamily,
         ),
         home: const LoginScreen(),
       ),

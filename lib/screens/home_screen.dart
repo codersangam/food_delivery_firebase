@@ -226,7 +226,7 @@ class _SingleProductState extends State<SingleProduct> {
   getWishtListBool() {
     FirebaseFirestore.instance
         .collection("wishListData")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection("CustomerWishList")
         .doc(widget.productId)
         .get()
