@@ -50,24 +50,59 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: TextButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.amber)),
-            onPressed: () {
-              _googleSignUp().then(
-                (value) => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                ),
-              );
-            },
-            child: 'Google Login'.text.make(),
-          ),
+    return Scaffold(
+      // body: Center(
+      //   child: TextButton(
+      //     style: ButtonStyle(
+      //         backgroundColor: MaterialStateProperty.all(Colors.amber)),
+      //     onPressed: () {
+      //       _googleSignUp().then(
+      //         (value) => Navigator.pushReplacement(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => const HomeScreen(),
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //     child: 'Google Login'.text.make(),
+      //   ),
+      // ),
+
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/organic.jpeg',
+              width: 300,
+              height: 200,
+            ),
+            "Fresh Vegetables".text.xl2.green700.make(),
+            40.heightBox,
+            "Login with google".text.xl.make(),
+            10.heightBox,
+            VxCircle(
+              radius: 60,
+              backgroundColor: const Color(0xfff0f0f0),
+              child: IconButton(
+                onPressed: () {
+                  _googleSignUp().then(
+                    (value) => Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    ),
+                  );
+                },
+                icon: Image.asset('assets/images/google.png').p4(),
+              ),
+            ),
+          ],
         ),
       ),
     );

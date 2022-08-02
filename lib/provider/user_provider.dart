@@ -27,7 +27,7 @@ class UserProvider extends ChangeNotifier {
     UserModel userModel;
     var value = await FirebaseFirestore.instance
         .collection('usersData')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(FirebaseAuth.instance.currentUser?.uid)
         .get();
 
     if (value.exists) {

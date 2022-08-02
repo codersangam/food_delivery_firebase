@@ -14,7 +14,7 @@ class OrderedItems extends StatelessWidget {
         width: 60,
       ),
       title: data.cartName!.text.make(),
-      subtitle: data.cartUnit!.text.make(),
+      subtitle: data.cartUnit?.text.make(),
       trailing: '${data.cartPrice!}\$'.text.make(),
     );
   }
