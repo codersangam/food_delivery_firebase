@@ -12,31 +12,26 @@ class Utils {
     Function? onPressed2,
   }) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(title),
-            content: Text(message),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  // ignore: void_checks
-                  return onPressed();
-                },
-                child: Text(buttonText),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            ElevatedButton(
+              onPressed: onPressed(),
+              child: Text(buttonText),
+            ),
+            Visibility(
+              visible: isConfirmDialog,
+              child: ElevatedButton(
+                onPressed: onPressed2!(),
+                child: Text(buttonText2),
               ),
-              Visibility(
-                visible: isConfirmDialog,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // ignore: void_checks
-                    return onPressed2!();
-                  },
-                  child: Text(buttonText2),
-                ),
-              )
-            ],
-          );
-        });
+            )
+          ],
+        );
+      },
+    );
   }
 }

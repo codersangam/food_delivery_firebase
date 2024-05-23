@@ -7,9 +7,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
-    Key? key,
+    super.key,
     required this.userProvider,
-  }) : super(key: key);
+  });
 
   final UserProvider userProvider;
 

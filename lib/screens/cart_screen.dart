@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +87,13 @@ class CartScreen extends StatelessWidget {
 // ignore: must_be_immutable
 class CartItems extends StatefulWidget {
   CartItems(
-      {Key? key,
+      {super.key,
       required this.productId,
       required this.productName,
       required this.productImageUrl,
       required this.productPrice,
       required this.productQuantity,
-      required this.productUnit})
-      : super(key: key);
+      required this.productUnit});
 
   final String productId;
   final String productName;

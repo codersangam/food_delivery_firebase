@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
-      {Key? key,
+      {super.key,
       required this.labelText,
       required this.controller,
-      required this.keyBoardType})
-      : super(key: key);
+      required this.keyBoardType});
 
   final String labelText;
   final TextEditingController controller;

@@ -3,12 +3,11 @@ import 'package:velocity_x/velocity_x.dart';
 
 class DeliveryAdress extends StatelessWidget {
   const DeliveryAdress(
-      {Key? key,
+      {super.key,
       required this.fullName,
       required this.fullAddress,
       required this.phoneNumber,
-      required this.addressType})
-      : super(key: key);
+      required this.addressType});
 
   final String fullName;
   final String fullAddress;

@@ -39,8 +39,7 @@ class CartProvider extends ChangeNotifier {
         .collection('CustomerCart')
         .get();
 
-    // ignore: avoid_function_literals_in_foreach_calls
-    data.docs.forEach((element) {
+    for (var element in data.docs) {
       CartModel cartModel = CartModel(
         cartId: element.get('cartId'),
         cartName: element.get('cartName'),
@@ -50,7 +49,7 @@ class CartProvider extends ChangeNotifier {
         cartUnit: element.get('cartUnit'),
       );
       newList.add(cartModel);
-    });
+    }
     cartItems = newList;
     notifyListeners();
   }

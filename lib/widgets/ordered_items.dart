@@ -3,7 +3,7 @@ import 'package:food_delivery/models/cart_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class OrderedItems extends StatelessWidget {
-  const OrderedItems({Key? key, required this.data}) : super(key: key);
+  const OrderedItems({super.key, required this.data});
 
   final CartModel data;
   @override

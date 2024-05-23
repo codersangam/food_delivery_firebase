@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddDeliveryAddress extends StatefulWidget {
-  const AddDeliveryAddress({Key? key}) : super(key: key);
+  const AddDeliveryAddress({super.key});
 
   @override
-  _AddDeliveryAddressState createState() => _AddDeliveryAddressState();
+  State<AddDeliveryAddress> createState() => _AddDeliveryAddressState();
 }
 
 enum AddressTypes { home, work, others }

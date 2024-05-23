@@ -5,18 +5,17 @@ import 'package:velocity_x/velocity_x.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails(
-      {Key? key,
+      {super.key,
       required this.productName,
       required this.productImageUrl,
-      required this.productPrice})
-      : super(key: key);
+      required this.productPrice});
 
   final String productName;
   final String productImageUrl;
   final String productPrice;
 
   @override
-  _ProductDetailsState createState() => _ProductDetailsState();
+  State<ProductDetails> createState() => _ProductDetailsState();
 }
 
 class _ProductDetailsState extends State<ProductDetails> {

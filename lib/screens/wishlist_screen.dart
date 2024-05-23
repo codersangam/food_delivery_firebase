@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class WishListScrenn extends StatelessWidget {
-  const WishListScrenn({Key? key}) : super(key: key);
+  const WishListScrenn({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +54,12 @@ class WishListScrenn extends StatelessWidget {
 // ignore: must_be_immutable
 class WishListItems extends StatefulWidget {
   const WishListItems({
-    Key? key,
+    super.key,
     required this.productId,
     required this.productName,
     required this.productImageUrl,
     required this.productPrice,
-  }) : super(key: key);
+  });
 
   final String productId;
   final String productName;

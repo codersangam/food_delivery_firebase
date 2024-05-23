@@ -3,7 +3,7 @@ import 'package:food_delivery/models/product_model.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key, required this.search}) : super(key: key);
+  const SearchScreen({super.key, required this.search});
 
   final List<ProductModel> search;
 
@@ -22,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<ProductModel> _searchItem = searchItem(query);
+    List<ProductModel> mySearchItem = searchItem(query);
 
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           20.heightBox,
           Column(
-              children: _searchItem.map((data) {
+              children: mySearchItem.map((data) {
             return SearchSingleItem(
               productName: data.productName.toString(),
               productImageUrl: data.productImageUrl.toString(),
@@ -75,11 +75,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
 class SearchSingleItem extends StatelessWidget {
   const SearchSingleItem({
-    Key? key,
+    super.key,
     required this.productName,
     required this.productImageUrl,
     required this.productPrice,
-  }) : super(key: key);
+  });
 
   final String productName;
   final String productImageUrl;

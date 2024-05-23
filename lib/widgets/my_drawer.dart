@@ -9,9 +9,9 @@ import 'package:velocity_x/velocity_x.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({
-    Key? key,
+    super.key,
     required this.userProvider,
-  }) : super(key: key);
+  });
 
   final UserProvider userProvider;
 
@@ -152,11 +152,11 @@ class _MyDrawerState extends State<MyDrawer> {
 
 class MyListTile extends StatelessWidget {
   const MyListTile({
-    Key? key,
+    super.key,
     required this.icon,
     required this.label,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String? label;

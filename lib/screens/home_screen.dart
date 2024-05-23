@@ -15,10 +15,10 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -196,14 +196,14 @@ class _HomeScreenState extends State<HomeScreen> {
 // ignore: must_be_immutable
 class SingleProduct extends StatefulWidget {
   const SingleProduct({
-    Key? key,
+    super.key,
     required this.productId,
     required this.prodctTitle,
     required this.productImageUrl,
     required this.productPrice,
     required this.onTap,
     required this.productUnit,
-  }) : super(key: key);
+  });
 
   final String productId;
   final String prodctTitle;

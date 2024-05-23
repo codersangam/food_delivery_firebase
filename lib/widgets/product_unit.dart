@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProductUnit extends StatelessWidget {
-  const ProductUnit({Key? key, required this.title, required this.onTap})
-      : super(key: key);
+  const ProductUnit({super.key, required this.title, required this.onTap});
 
   final String title;
   final VoidCallback onTap;

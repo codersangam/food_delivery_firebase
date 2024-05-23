@@ -6,13 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class PaymentSummary extends StatefulWidget {
-  const PaymentSummary({Key? key, required this.deliveryAddressDetails})
-      : super(key: key);
+  const PaymentSummary({super.key, required this.deliveryAddressDetails});
 
   final DeliveryAddressModel? deliveryAddressDetails;
 
   @override
-  _PaymentSummaryState createState() => _PaymentSummaryState();
+  State<PaymentSummary> createState() => _PaymentSummaryState();
 }
 
 enum PaymentMethods {
@@ -89,11 +88,6 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                 color: Colors.black,
               ),
               ExpansionTile(
-                  children: cartProvider.getCartProducts.map((e) {
-                    return OrderedItems(
-                      data: e,
-                    );
-                  }).toList(),
                   title: Row(
                     children: [
                       'Ordered Items'.text.lg.make(),
@@ -103,7 +97,12 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                           .bold
                           .make(),
                     ],
-                  )),
+                  ),
+                  children: cartProvider.getCartProducts.map((e) {
+                    return OrderedItems(
+                      data: e,
+                    );
+                  }).toList()),
               const Divider(
                 color: Colors.black,
               ),
