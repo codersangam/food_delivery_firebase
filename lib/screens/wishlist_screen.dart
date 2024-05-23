@@ -34,8 +34,7 @@ class WishListScrenn extends StatelessWidget {
               itemBuilder: (context, index) {
                 WishListModel data =
                     wishListProvider.getWishListProducts[index];
-                // ignore: avoid_print
-                print(data);
+                debugPrint(data.toString());
                 return Column(
                   children: [
                     WishListItems(

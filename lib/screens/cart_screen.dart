@@ -34,8 +34,7 @@ class CartScreen extends StatelessWidget {
               itemCount: cartProvider.getCartProducts.length,
               itemBuilder: (context, index) {
                 CartModel data = cartProvider.getCartProducts[index];
-                // ignore: avoid_print
-                print(data);
+                debugPrint(data.toString());
                 return Column(
                   children: [
                     CartItems(

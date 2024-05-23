@@ -26,8 +26,7 @@ class ProductProvider with ChangeNotifier {
         await FirebaseFirestore.instance.collection('HerbProducts').get();
 
     for (var element in value.docs) {
-      // ignore: avoid_print
-      print(element);
+      debugPrint(element.toString());
       productsModel(element);
       newList.add(productModel!);
     }
@@ -46,13 +45,11 @@ class ProductProvider with ChangeNotifier {
     QuerySnapshot value =
         await FirebaseFirestore.instance.collection('FruitProducts').get();
 
-    // ignore: avoid_function_literals_in_foreach_calls
-    value.docs.forEach((element) {
-      // ignore: avoid_print
-      print(element);
+    for (var element in value.docs) {
+      debugPrint(element.toString());
       productsModel(element);
       newList.add(productModel!);
-    });
+    }
     fruitProducts = newList;
     notifyListeners();
   }

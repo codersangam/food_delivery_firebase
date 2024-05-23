@@ -32,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       final User? user = (await auth.signInWithCredential(credential)).user;
-      // ignore: avoid_print
-      print("signed in ${user!.displayName}");
+
+      debugPrint("signed in ${user!.displayName}");
 
       userProvider!.addUserData(
         userName: user.displayName,
